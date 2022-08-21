@@ -64,10 +64,4 @@ function Main({
   );
 }
 
-function handleEditAvatarClick() {}
-
-function handleEditProfileClick() {}
-
-function handleAddPlaceClick() {}
-
 export default Main;
