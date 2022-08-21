@@ -7,13 +7,14 @@ function DeleteCardPopup({
   isOpened,
   isClosed,
   onDeletePhoto,
+  card
 }) {
   const [saveBtnTitle, setSaveBtnTitle] = React.useState("Да");
 
   function handleSubmit(event) {
     event.preventDefault();
     setSaveBtnTitle("Удаление...");
-    onDeletePhoto().finally(() => {
+    onDeletePhoto(card).finally(() => {
       setSaveBtnTitle("Да");
     });
   }

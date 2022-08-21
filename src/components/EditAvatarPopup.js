@@ -1,9 +1,14 @@
-import React, { useCallback } from "react";
+import  { useCallback, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithFotm";
 
-function EditAvatarPopup({ name, title, isOpened, isClosed, onEditAvatar }) {
-  const [saveBtnTitle, setSaveBtnTitle] = React.useState("Сохранить");
-  const [value, setValue] = React.useState("");
+function EditAvatarPopup({ name, title, isOpened, isClosed, onEditAvatar, isOpen}) {
+  const [saveBtnTitle, setSaveBtnTitle] = useState("Сохранить");
+  const [value, setValue] = useState("");
+
+useEffect(() => {
+  setValue("");
+}, [isOpen])
+
 
   const onChange = useCallback((event) => {
     setValue(event.target.value);
@@ -18,7 +23,6 @@ function EditAvatarPopup({ name, title, isOpened, isClosed, onEditAvatar }) {
   }
 
   return (
-    <>
       <PopupWithForm
         name={name}
         title={title}
@@ -44,7 +48,6 @@ function EditAvatarPopup({ name, title, isOpened, isClosed, onEditAvatar }) {
           </span>
         </label>
       </PopupWithForm>
-    </>
   );
 }
 

@@ -22,7 +22,7 @@ function App() {
     link: "",
     title: "",
   });
-  const [deletedCardId, setDeleteCardId] = React.useState({ id: "" });
+  const [toDeleteCard, setDeleteCardId] = React.useState({ id: "" });
 
   const [userId, setUserId] = React.useState("");
 
@@ -120,11 +120,11 @@ function App() {
       });
   };
 
-  const handleDeleteCardSubmit = () => {
+  const handleDeleteCardSubmit = (deleteCard) => {
     return api
-      .deleteCard(deletedCardId.id)
+      .deleteCard(deleteCard.id)
       .then(() => {
-        setCards(cards.filter((card) => card._id !== deletedCardId.id));
+        setCards(cards.filter((card) => card._id !== deleteCard.id));
         setDeleteCardPopupOpen(false);
       })
       .catch((err) => {
@@ -161,6 +161,7 @@ function App() {
           isOpened={isEditAvatarPopupOpen}
           isClosed={closeAllPopups}
           onEditAvatar={handleEditAvatarSubmit}
+          isOpen={isEditAvatarPopupOpen}
         />
 
         <AddPlacePopup
@@ -169,6 +170,7 @@ function App() {
           isOpened={isAddPopupOpen}
           isClosed={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          isOpen={isAddPopupOpen}
         />
 
         <EditProfilePopup
@@ -178,6 +180,7 @@ function App() {
           isClosed={closeAllPopups}
           onEditProfile={handleEditProfileSubmit}
           userData={userData}
+          isOpen={isEditProfilePopupOpen}
         />
 
         <DeleteCardPopup
@@ -186,6 +189,7 @@ function App() {
           isOpened={isDeleteCardPopupOpen}
           isClosed={closeAllPopups}
           onDeletePhoto={handleDeleteCardSubmit}
+          card={toDeleteCard}
         />
       </div>
     </div>

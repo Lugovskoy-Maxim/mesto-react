@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithFotm";
 
 function EditProfilePopup({
@@ -8,15 +8,16 @@ function EditProfilePopup({
   isClosed,
   onEditProfile,
   userData,
+  isOpen
 }) {
-  const [saveBtnTitle, setSaveBtnTitle] = React.useState("Сохранить");
-  const [userName, setUserName] = React.useState(userData.name);
-  const [userAbout, setUserAbout] = React.useState(userData.about);
+  const [saveBtnTitle, setSaveBtnTitle] = useState("Сохранить");
+  const [userName, setUserName] = useState(userData.name);
+  const [userAbout, setUserAbout] = useState(userData.about);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setUserName(userData.name);
     setUserAbout(userData.about);
-  }, [userData]);
+  }, [userData, isOpen]);
 
   function handleSubmit(event) {
     event.preventDefault();

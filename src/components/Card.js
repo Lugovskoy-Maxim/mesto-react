@@ -29,7 +29,6 @@ function Card({ card, userId, onCardLike, handlePreviewPopupClick, onCardDelete}
   }
 
   return (
-    <>
       <li className="element">
         <img
           src={card.link}
@@ -56,7 +55,6 @@ function Card({ card, userId, onCardLike, handlePreviewPopupClick, onCardDelete}
           </div>
         </div>
       </li>
-    </>
   );
 }
 

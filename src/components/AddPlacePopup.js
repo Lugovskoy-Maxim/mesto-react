@@ -1,19 +1,21 @@
-import React, { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithFotm";
 
-function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace }) {
-  const [saveBtnTitle, setSaveBtnTitle] = React.useState("Создать");
-  const [titleCard, setTitleCard] = React.useState("");
-  const [link, setLink] = React.useState("");
+function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace , isOpen}) {
+  const [saveBtnTitle, setSaveBtnTitle] = useState("Создать");
+  const [titleCard, setTitleCard] = useState("");
+  const [link, setLink] = useState("");
+
+
+  useEffect(() => {
+    setLink("");
+    setTitleCard("");
+  }, [isOpen])
 
   function handleSubmit(event) {
     event.preventDefault();
     setSaveBtnTitle("Сохранение...");
     onAddPlace(link, titleCard)
-      .then(() => {
-        setLink("");
-        setTitleCard("");
-      })
       .finally(() => {
         setSaveBtnTitle("Создать");
       });
@@ -28,7 +30,6 @@ function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace }) {
   }, []);
 
   return (
-    <>
       <PopupWithForm
         name={name}
         title={title}
@@ -72,7 +73,6 @@ function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace }) {
           </span>
         </label>
       </PopupWithForm>
-    </>
   );
 }
 
