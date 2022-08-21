@@ -9,6 +9,7 @@
   transition: opacity 0.5s;
   border: none;
   cursor: pointer;
+
 }
 
 .element__cards-remove:hover {

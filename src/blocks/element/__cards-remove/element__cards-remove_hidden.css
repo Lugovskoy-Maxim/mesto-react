@@ -1,3 +1,4 @@
 .element__cards-remove_hidden{
+  position: absolute;
   visibility: hidden;
 }

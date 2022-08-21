@@ -2,22 +2,28 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithFotm";
+import EditAvatarPopup from "./EditAvatarPopup";
 import ImagePopup from "./ImagePopup";
+import AddPlacePopup from "./AddPlacePopup";
+import EditProfilePopup from "./EditProfilePopup";
 import { api } from "../Utils/api";
+import DeleteCardPopup from "./DeleteCardPopup";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  const [isPreviewPopupOpen, setPreviewPopupOpen] = React.useState(false);
+  const [isAddPopupOpen, setAddPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
     React.useState(false);
-  const [isAddPopupOpen, setAddPopupOpen] = React.useState(false);
+  const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({});
   const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState({
     link: "",
     title: "",
   });
-  const [isPreviewPopupOpen, setPreviewPopupOpen] = React.useState(false);
+  const [deletedCardId, setDeleteCardId] = React.useState({ id: "" });
+
   const [userId, setUserId] = React.useState("");
 
   const handleEditAvatarClick = () => {
@@ -29,120 +35,21 @@ function App() {
   const handleAddPlaceClick = () => {
     setAddPopupOpen(true);
   };
+  const handleCardDeleteClick = (card) => {
+    setDeleteCardId({ id: card._id });
+    setDeleteCardPopupOpen(true);
+  };
 
   const closeAllPopups = () => {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPopupOpen(false);
     setPreviewPopupOpen(false);
+    setDeleteCardPopupOpen(false);
     setSelectedCard({ link: "", title: "" });
   };
 
-  const addNewPlaceChildren = () => {
-    return (
-      <>
-        <label className="popup__field">
-          <input
-            type="text"
-            className="popup__input"
-            placeholder="Название"
-            name="title"
-            id="title"
-            minLength="2"
-            maxLength="30"
-            autoComplete="off"
-            required
-          />
-          <span className="popup__field-error" id="title-error">
-            {" "}
-          </span>
-        </label>
-        <label className="popup__field">
-          <input
-            type="url"
-            id="link"
-            name="link"
-            className="popup__input"
-            placeholder="Ссылка"
-            autoComplete="off"
-            required
-          />
-          <span className="popup__field-error" id="link-error">
-            {" "}
-          </span>
-        </label>
-        <button type="submit" className="popup__save popup__save-card">
-          Создать
-        </button>
-      </>
-    );
-  };
-
-  const EditProfilePopupChildren = (name, about) => {
-    return (
-      <>
-        <label className="popup__field">
-          <input
-            type="text"
-            className="popup__input"
-            placeholder={name}
-            name="name"
-            id="name"
-            minLength="2"
-            maxLength="30"
-            autoComplete="off"
-            required
-          />
-          <span className="popup__field-error" id="title-error">
-            {" "}
-          </span>
-        </label>
-        <label className="popup__field">
-          <input
-            type="text"
-            id="about"
-            name="about"
-            className="popup__input"
-            placeholder={about}
-            autoComplete="off"
-            required
-          />
-          <span className="popup__field-error" id="link-error">
-            {" "}
-          </span>
-        </label>
-        <button type="submit" className="popup__save popup__save-card">
-          Сохранить
-        </button>
-      </>
-    );
-  };
-
-  const EditAvatarPopupChildren = () => {
-    return (
-      <>
-        <label className="popup__field">
-          <input
-            type="url"
-            id="avatar"
-            name="avatar"
-            className="popup__input"
-            placeholder="Ссылка на аватар"
-            autoComplete="off"
-            required
-          />
-          <span className="popup__field-error" id="link-error">
-            {" "}
-          </span>
-        </label>
-        <button type="submit" className="popup__save popup__save-avatar">
-          Обновить
-        </button>
-      </>
-    );
-  };
-
-  const getAppData = () => {
+  React.useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then((data) => {
         setUserData(data[0]); //name, about, avatar, _id
@@ -152,10 +59,6 @@ function App() {
       .catch((err) => {
         console.log(`ошибка ${err}`);
       });
-  };
-
-  React.useEffect(() => {
-    getAppData();
   }, [setCards]);
 
   const handlePreviewPopupClick = (src, alt) => {
@@ -181,6 +84,54 @@ function App() {
       });
   };
 
+  const handleAddPlaceSubmit = (link, title) => {
+    return api
+      .addCard(link, title)
+      .then((newCard) => {
+        setCards([newCard, ...cards]); //создать копию с новым елементом массива
+        setAddPopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`ошибка ${err}`);
+      });
+  };
+
+  const handleEditProfileSubmit = (userName, userAbout) => {
+    return api
+      .setUserInfo(userName, userAbout)
+      .then((user) => {
+        setUserData(user);
+        setEditProfilePopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`ошибка ${err}`);
+      });
+  };
+
+  const handleEditAvatarSubmit = (data) => {
+    return api
+      .setUserAvatar(data)
+      .then((user) => {
+        setUserData(user);
+        setEditAvatarPopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`ошибка ${err}`);
+      });
+  };
+
+  const handleDeleteCardSubmit = () => {
+    return api
+      .deleteCard(deletedCardId.id)
+      .then(() => {
+        setCards(cards.filter((card) => card._id !== deletedCardId.id));
+        setDeleteCardPopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`ошибка ${err}`);
+      });
+  };
+
   return (
     <div className="App">
       <div className="page">
@@ -193,6 +144,7 @@ function App() {
           cards={cards}
           onCardLike={handleCardLike}
           handlePreviewPopupClick={handlePreviewPopupClick}
+          onCardDelete={handleCardDeleteClick}
         />
         <Footer />
 
@@ -203,54 +155,38 @@ function App() {
           isClosed={closeAllPopups}
         ></ImagePopup>
 
-        <PopupWithForm
-          name="edit-profile"
-          title="Редактировать профиль"
-          isOpened={isEditProfilePopupOpen}
-          isClosed={closeAllPopups}
-        >
-          {EditProfilePopupChildren(userData.name, userData.about)}
-        </PopupWithForm>
-
-        <PopupWithForm
+        <EditAvatarPopup
           name="edit-avatar"
           title="Обновить аватар"
           isOpened={isEditAvatarPopupOpen}
           isClosed={closeAllPopups}
-        >
-          {EditAvatarPopupChildren()}
-        </PopupWithForm>
+          onEditAvatar={handleEditAvatarSubmit}
+        />
 
-        <PopupWithForm
+        <AddPlacePopup
           name="add-card"
           title="Новое место"
           isOpened={isAddPopupOpen}
           isClosed={closeAllPopups}
-        >
-          {addNewPlaceChildren()}
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
-        <template className="cards-template">
-          <li className="element">
-            <img src="#" alt="#" className="element__image" />
-            <button
-              type="button"
-              className="element__cards-remove"
-              aria-level="Удалить"
-            ></button>
-            <div className="element__description">
-              <h2 className="element__title"></h2>
-              <div className="element__like_count">
-                <button
-                  type="button"
-                  className="element__like"
-                  aria-level="Нравиться!"
-                ></button>
-                <p className="element__like-counter">0</p>
-              </div>
-            </div>
-          </li>
-        </template>
+        <EditProfilePopup
+          namePopup="edit-profile"
+          titlePopup="Редактировать профиль"
+          isOpened={isEditProfilePopupOpen}
+          isClosed={closeAllPopups}
+          onEditProfile={handleEditProfileSubmit}
+          userData={userData}
+        />
+
+        <DeleteCardPopup
+          name="remove"
+          title="Вы уверены?"
+          isOpened={isDeleteCardPopupOpen}
+          isClosed={closeAllPopups}
+          onDeletePhoto={handleDeleteCardSubmit}
+        />
       </div>
     </div>
   );

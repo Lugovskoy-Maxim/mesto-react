@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card";
 import LoadingAvatar from "../Images/loading.gif";
-//  засунуть катрочки в element спомощью card.map((card) => <Card card={card} onCardClick={onCardClick} like= delite= id=/>)
+
 function Main({
   userData,
   onEditProfile,
@@ -10,6 +10,7 @@ function Main({
   cards,
   onCardLike,
   handlePreviewPopupClick,
+  onCardDelete,
 }) {
   return (
     <main className="content">
@@ -23,7 +24,7 @@ function Main({
           onClick={onEditAvatar}
         >
           <img
-            src={userData.avatar}
+            src={userData.avatar || LoadingAvatar}
             alt="Аватар пользователя"
             className="profile__avatar"
           />
@@ -55,6 +56,7 @@ function Main({
             onCardLike={onCardLike}
             handlePreviewPopupClick={handlePreviewPopupClick}
             key={card._id}
+            onCardDelete={onCardDelete}
           />
         ))}
       </ul>
