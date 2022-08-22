@@ -13,7 +13,6 @@ function PopupWithForm(props) {
           className="popup__form popup__form_add"
           name="cardForm"
           onSubmit={props.onSubmit}
-          noValidate
         >
           {props.children}
         </form>
