@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -10,21 +10,20 @@ import { api } from "../Utils/api";
 import DeleteCardPopup from "./DeleteCardPopup";
 
 function App() {
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [isPreviewPopupOpen, setPreviewPopupOpen] = React.useState(false);
-  const [isAddPopupOpen, setAddPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
-    React.useState(false);
-  const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = React.useState(false);
-  const [userData, setUserData] = React.useState({});
-  const [cards, setCards] = React.useState([]);
-  const [selectedCard, setSelectedCard] = React.useState({
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [isPreviewPopupOpen, setPreviewPopupOpen] = useState(false);
+  const [isAddPopupOpen, setAddPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = useState(false);
+  const [userData, setUserData] = useState({});
+  const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState({
     link: "",
     title: "",
   });
-  const [toDeleteCard, setDeleteCardId] = React.useState({ id: "" });
+  const [toDeleteCard, setDeleteCardId] = useState({ id: "" });
 
-  const [userId, setUserId] = React.useState("");
+  const [userId, setUserId] = useState("");
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);
@@ -49,7 +48,7 @@ function App() {
     setSelectedCard({ link: "", title: "" });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then((data) => {
         setUserData(data[0]); //name, about, avatar, _id
@@ -63,7 +62,7 @@ function App() {
 
   const handlePreviewPopupClick = (src, alt) => {
     setSelectedCard({
-      ...selectedCard,
+      // ...selectedCard,
       link: src,
       title: alt,
     });
@@ -71,7 +70,7 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((i) => i._id == userId);
+    const isLiked = card.likes.some((i) => i._id === userId);
     return api
       .changeStatusLikeCard(card._id, isLiked)
       .then((currentCard) => {

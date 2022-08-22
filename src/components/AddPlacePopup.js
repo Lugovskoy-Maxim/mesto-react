@@ -50,7 +50,6 @@ function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace , isOpen}) 
             minLength="2"
             maxLength="30"
             autoComplete="off"
-            required
           />
           <span className="popup__field-error" id="title-error">
             {" "}
@@ -66,7 +65,6 @@ function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace , isOpen}) 
             className="popup__input"
             placeholder="Ссылка"
             autoComplete="off"
-            required
           />
           <span className="popup__field-error" id="link-error">
             {" "}
