@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Lugovskoy-Maxim/mesto-react/static/css/main.9ae2da39.css",
-    "main.js": "/Lugovskoy-Maxim/mesto-react/static/js/main.0572f52e.js",
+    "main.css": "/Lugovskoy-Maxim/mesto-react/static/css/main.bd119fa4.css",
+    "main.js": "/Lugovskoy-Maxim/mesto-react/static/js/main.cd53eac0.js",
     "static/js/787.5530211c.chunk.js": "/Lugovskoy-Maxim/mesto-react/static/js/787.5530211c.chunk.js",
     "static/media/Inter-Bold.woff": "/Lugovskoy-Maxim/mesto-react/static/media/Inter-Bold.93c1301bd9f486c573b3.woff",
     "static/media/Inter-Black.woff": "/Lugovskoy-Maxim/mesto-react/static/media/Inter-Black.c6938660eec019fefd68.woff",
@@ -19,12 +19,12 @@
     "static/media/VectorEditAvatar.svg": "/Lugovskoy-Maxim/mesto-react/static/media/VectorEditAvatar.ae1a976ddb506239e9f0.svg",
     "static/media/Iconclose.svg": "/Lugovskoy-Maxim/mesto-react/static/media/Iconclose.039f1f5203f653b4bacd.svg",
     "static/media/Vectoradd.svg": "/Lugovskoy-Maxim/mesto-react/static/media/Vectoradd.bed8c136e13907f5eefb.svg",
-    "main.9ae2da39.css.map": "/Lugovskoy-Maxim/mesto-react/static/css/main.9ae2da39.css.map",
-    "main.0572f52e.js.map": "/Lugovskoy-Maxim/mesto-react/static/js/main.0572f52e.js.map",
+    "main.bd119fa4.css.map": "/Lugovskoy-Maxim/mesto-react/static/css/main.bd119fa4.css.map",
+    "main.cd53eac0.js.map": "/Lugovskoy-Maxim/mesto-react/static/js/main.cd53eac0.js.map",
     "787.5530211c.chunk.js.map": "/Lugovskoy-Maxim/mesto-react/static/js/787.5530211c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9ae2da39.css",
-    "static/js/main.0572f52e.js"
+    "static/css/main.bd119fa4.css",
+    "static/js/main.cd53eac0.js"
   ]
 }
