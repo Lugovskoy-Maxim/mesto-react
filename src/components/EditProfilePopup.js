@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext} from "react";
+import { CurrentUserContext } from "../context/CurrentUserContext";
 import PopupWithForm from "./PopupWithFotm";
 
 function EditProfilePopup({
@@ -7,17 +8,17 @@ function EditProfilePopup({
   isOpened,
   isClosed,
   onEditProfile,
-  userData,
   isOpen
 }) {
+  const currentUser = useContext(CurrentUserContext)
   const [saveBtnTitle, setSaveBtnTitle] = useState("Сохранить");
-  const [userName, setUserName] = useState(userData.name);
-  const [userAbout, setUserAbout] = useState(userData.about);
+  const [userName, setUserName] = useState(currentUser.name);
+  const [userAbout, setUserAbout] = useState(currentUser.about);
 
   useEffect(() => {
-    setUserName(userData.name);
-    setUserAbout(userData.about);
-  }, [userData, isOpen]);
+    setUserName(currentUser.name);
+    setUserAbout(currentUser.about);
+  }, [currentUser, isOpen]);
 
   function handleSubmit(event) {
     event.preventDefault();

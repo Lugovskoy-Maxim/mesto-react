@@ -21,7 +21,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://github.com/Lugovskoy-Maxim/mesto-react",
+  "homepage": "https://lugovskoy-maxim.github.io/mesto-react/",
   "eslintConfig": {
     "extends": [
       "react-app",

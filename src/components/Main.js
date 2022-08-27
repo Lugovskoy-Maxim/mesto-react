@@ -1,9 +1,9 @@
 import React from "react";
 import Card from "./Card";
 import LoadingAvatar from "../Images/loading.gif";
+import { CurrentUserContext } from "../context/CurrentUserContext";
 
 function Main({
-  userData,
   onEditProfile,
   onEditAvatar,
   onAddPlace,
@@ -12,6 +12,8 @@ function Main({
   handlePreviewPopupClick,
   onCardDelete,
 }) {
+
+  const currentUser = React.useContext(CurrentUserContext);
   return (
     <main className="content">
       <section className="profile">
@@ -24,14 +26,14 @@ function Main({
           onClick={onEditAvatar}
         >
           <img
-            src={userData.avatar || LoadingAvatar}
+            src={currentUser.avatar || LoadingAvatar}
             alt="Аватар пользователя"
             className="profile__avatar"
           />
         </button>
         <div className="profile__info">
           <div className="profile__top-title">
-            <h1 className="profile__name">{userData.name}</h1>
+            <h1 className="profile__name">{currentUser.name}</h1>
             <button
               type="button"
               className="profile__edit"
@@ -39,7 +41,7 @@ function Main({
               onClick={onEditProfile}
             ></button>
           </div>
-          <p className="profile__caption">{userData.about}</p>
+          <p className="profile__caption">{currentUser.about}</p>
         </div>
         <button
           type="button"
@@ -52,7 +54,7 @@ function Main({
         {cards.map((card) => (
           <Card
             card={card}
-            userId={userData._id}
+            userId={currentUser._id}
             onCardLike={onCardLike}
             handlePreviewPopupClick={handlePreviewPopupClick}
             key={card._id}

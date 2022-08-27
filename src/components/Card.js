@@ -1,11 +1,13 @@
 import React from "react";
+import {CurrentUserContext} from '../context/CurrentUserContext'
 
-function Card({ card, userId, onCardLike, handlePreviewPopupClick, onCardDelete}) {
+function Card({ card, onCardLike, handlePreviewPopupClick, onCardDelete}) {
+  const currentUser = React.useContext(CurrentUserContext);
   const [countLikes, setCountlikes] = React.useState(card.likes.length);
   const [isLiked, setIsLiked] = React.useState(
-    card.likes.some((i) => i._id == userId)
+    card.likes.some((i) => i._id === currentUser._id)
   );
-  const classNameDeleteMainCard = `${card.owner._id == userId ? 'element__cards-remove': 'element__cards-remove_hidden'
+  const classNameDeleteMainCard = `${card.owner._id === currentUser._id ? 'element__cards-remove': 'element__cards-remove_hidden'
   }`;
   const classNameLikeButton = `element__like ${
     isLiked && "element__like_active"
@@ -13,7 +15,7 @@ function Card({ card, userId, onCardLike, handlePreviewPopupClick, onCardDelete}
 
   React.useEffect(() => {
     setCountlikes(card.likes.length);
-    setIsLiked(card.likes.some((i) => i._id == userId));
+    setIsLiked(card.likes.some((i) => i._id === currentUser._id));
   }, [card]); //проверить нужна ли зависимость, забыл почему поствил
 
   const handleImageClick = (e) => {

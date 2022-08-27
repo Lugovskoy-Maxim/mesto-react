@@ -8,6 +8,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import { api } from "../Utils/api";
 import DeleteCardPopup from "./DeleteCardPopup";
+import { CurrentUserContext } from "../context/CurrentUserContext";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
@@ -15,15 +16,14 @@ function App() {
   const [isAddPopupOpen, setAddPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({
     link: "",
     title: "",
   });
   const [toDeleteCard, setDeleteCardId] = useState({ id: "" });
-
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);
@@ -51,9 +51,9 @@ function App() {
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then((data) => {
-        setUserData(data[0]); //name, about, avatar, _id
+        setCurrentUser(data[0]); //name, about, avatar, _id
         setCards(data[1]);
-        setUserId(data[0]._id);
+        // setUserId(data[0]._id);
       })
       .catch((err) => {
         console.log(`ошибка ${err}`);
@@ -70,7 +70,7 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((i) => i._id === userId);
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
     return api
       .changeStatusLikeCard(card._id, isLiked)
       .then((currentCard) => {
@@ -99,7 +99,7 @@ function App() {
     return api
       .setUserInfo(userName, userAbout)
       .then((user) => {
-        setUserData(user);
+        setCurrentUser(user);
         setEditProfilePopupOpen(false);
       })
       .catch((err) => {
@@ -111,7 +111,7 @@ function App() {
     return api
       .setUserAvatar(data)
       .then((user) => {
-        setUserData(user);
+        setCurrentUser(user);
         setEditAvatarPopupOpen(false);
       })
       .catch((err) => {
@@ -132,11 +132,12 @@ function App() {
   };
 
   return (
+    <CurrentUserContext.Provider value={currentUser} >
     <div className="App">
       <div className="page">
         <Header />
         <Main
-          userData={userData}
+          // currentUser={currentUser}
           onEditProfile={handleEditProfileClick}
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
@@ -178,7 +179,7 @@ function App() {
           isOpened={isEditProfilePopupOpen}
           isClosed={closeAllPopups}
           onEditProfile={handleEditProfileSubmit}
-          userData={userData}
+          // userData={currentUser}
           isOpen={isEditProfilePopupOpen}
         />
 
@@ -192,6 +193,7 @@ function App() {
         />
       </div>
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
