@@ -3,10 +3,10 @@ import { CurrentUserContext } from "../context/CurrentUserContext";
 
 function Card({ card, onCardLike, handlePreviewPopupClick, onCardDelete }) {
   const currentUser = React.useContext(CurrentUserContext);
-  const [countLikes, setCountlikes] = React.useState(card.likes.length);
-  const [isLiked, setIsLiked] = React.useState(
-    card.likes.some((i) => i._id === currentUser._id)
-  );
+  const countLikes = card.likes.length;
+  const isLiked =
+    card.likes.some((i) => i._id === currentUser._id);
+
   const classNameDeleteMainCard = `${
     card.owner._id === currentUser._id
       ? "element__cards-remove"
@@ -39,7 +39,6 @@ function Card({ card, onCardLike, handlePreviewPopupClick, onCardDelete }) {
       <button
         type="button"
         className={classNameDeleteMainCard}
-        aria-level="Удалить"
         onClick={handleCardDelite}
       ></button>
       <div className="element__description">
