@@ -2,19 +2,15 @@ import { useCallback, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithFotm";
 
 function EditAvatarPopup({
-  name,
-  title,
   isOpened,
   isClosed,
-  onEditAvatar,
-  isOpen,
+  onEditAvatar
 }) {
-  const [saveBtnTitle, setSaveBtnTitle] = useState("Сохранить");
   const [value, setValue] = useState("");
 
   useEffect(() => {
     setValue("");
-  }, [isOpen]);
+  }, [isOpened]);
 
   const onChange = useCallback((event) => {
     setValue(event.target.value);
@@ -22,19 +18,16 @@ function EditAvatarPopup({
 
   function handleSubmit(event) {
     event.preventDefault();
-    setSaveBtnTitle("Сохранение...");
-    onEditAvatar(value).finally(() => {
-      setSaveBtnTitle("Сохранить");
-    });
+    onEditAvatar(value)
   }
 
   return (
     <PopupWithForm
-      name={name}
-      title={title}
+      name="edit-avatar"
+      title="Обновить аватар"
       isOpened={isOpened}
       isClosed={isClosed}
-      buttonTitle={saveBtnTitle}
+      buttonTitle="Сохранить"
       handleSubmit={handleSubmit}
     >
       <label className="popup__field">

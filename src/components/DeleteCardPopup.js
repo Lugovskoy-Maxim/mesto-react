@@ -1,31 +1,19 @@
 import React from "react";
 import PopupWithForm from "./PopupWithFotm";
 
-function DeleteCardPopup({
-  name,
-  title,
-  isOpened,
-  isClosed,
-  onDeletePhoto,
-  card
-}) {
-  const [saveBtnTitle, setSaveBtnTitle] = React.useState("Да");
-
+function DeleteCardPopup({ isOpened, isClosed, onDeletePhoto, card }) {
   function handleSubmit(event) {
     event.preventDefault();
-    setSaveBtnTitle("Удаление...");
-    onDeletePhoto(card).finally(() => {
-      setSaveBtnTitle("Да");
-    });
+    onDeletePhoto(card);
   }
 
   return (
     <PopupWithForm
-      name={name}
-      title={title}
+      name="remove"
+      title="Вы уверены?"
       isOpened={isOpened}
       isClosed={isClosed}
-      buttonTitle={saveBtnTitle}
+      buttonTitle="Да"
       handleSubmit={handleSubmit}
     />
   );

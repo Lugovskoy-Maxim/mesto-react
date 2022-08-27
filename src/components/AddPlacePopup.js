@@ -1,24 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
 import PopupWithForm from "./PopupWithFotm";
 
-function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace , isOpen}) {
-  const [saveBtnTitle, setSaveBtnTitle] = useState("Создать");
+function AddPlacePopup({isOpened, isClosed, onAddPlace}) {
   const [titleCard, setTitleCard] = useState("");
   const [link, setLink] = useState("");
 
 
   useEffect(() => {
-    setLink("");
-    setTitleCard("");
-  }, [isOpen])
+    if (isOpened){
+      setLink("");
+      setTitleCard("");
+    }
+
+  }, [isOpened])
 
   function handleSubmit(event) {
     event.preventDefault();
-    setSaveBtnTitle("Сохранение...");
     onAddPlace(link, titleCard)
-      .finally(() => {
-        setSaveBtnTitle("Создать");
-      });
   }
 
   const cbChangetitle = useCallback((event) => {
@@ -31,11 +29,11 @@ function AddPlacePopup({ name, title, isOpened, isClosed, onAddPlace , isOpen}) 
 
   return (
       <PopupWithForm
-        name={name}
-        title={title}
+        name="add-card"
+        title="Новое место"
         isOpened={isOpened}
         isClosed={isClosed}
-        buttonTitle={saveBtnTitle}
+        buttonTitle="Создать"
         handleSubmit={handleSubmit}
       >
         <label className="popup__field">

@@ -3,30 +3,22 @@ import { CurrentUserContext } from "../context/CurrentUserContext";
 import PopupWithForm from "./PopupWithFotm";
 
 function EditProfilePopup({
-  namePopup,
-  titlePopup,
   isOpened,
   isClosed,
-  onEditProfile,
-  isOpen
+  onEditProfile
 }) {
   const currentUser = useContext(CurrentUserContext)
-  const [saveBtnTitle, setSaveBtnTitle] = useState("Сохранить");
   const [userName, setUserName] = useState(currentUser.name);
   const [userAbout, setUserAbout] = useState(currentUser.about);
 
   useEffect(() => {
     setUserName(currentUser.name);
     setUserAbout(currentUser.about);
-  }, [currentUser, isOpen]);
+  }, [currentUser, isOpened]);
 
   function handleSubmit(event) {
     event.preventDefault();
-    setSaveBtnTitle("Сохранение...");
     onEditProfile(userName, userAbout)
-    .finally(() => {
-      setSaveBtnTitle("Сохранить");
-    });
   }
 
   const onChangeName = useCallback((event) => {
@@ -40,12 +32,12 @@ function EditProfilePopup({
   return (
     <>
       <PopupWithForm
-        name={namePopup}
-        title={titlePopup}
+        name="edit-profile"
+        title="Редактировать профиль"
         isOpened={isOpened}
         isClosed={isClosed}
         onEditProfile={onEditProfile}
-        buttonTitle={saveBtnTitle}
+        buttonTitle="Сохранить"
         handleSubmit={handleSubmit}
       >
         <label className="popup__field">
