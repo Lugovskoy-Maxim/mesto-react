@@ -1,12 +1,27 @@
-## Available Scripts
+# Проект: Mesto
 
-In the project directory, you can run:
+**Описание проекта**
+
+Проэкт Mesto - представляет собой интерактивную страницу, на которой можно добавлять фотографии, удалять их и ставить лайки. Целью проекта является изучение и закрепление пройденого учебного материала.
+
+**В данном проекте исползуются следующее технологии**
+
+- React, хуки (State, Context, Effect, Callback и другие... );
+- Api;
+- Файловая структура BEM Nasted;
+- Grid Layout;
+
+**TO DO**
+
+- Раализовать модульную систему стилей CSS
+- Добавить окно авторизации с записью в историю браузера.
+
+## Запуск
+
+Для запуска текущего проекта необходимо ввести команду:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Запускает приложение в режиме разработки.
+Откройте [http://localhost:3000 ](http://localhost:3000 ), чтобы просмотреть его в вашем браузере.
 
