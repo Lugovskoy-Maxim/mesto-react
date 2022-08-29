@@ -9,23 +9,22 @@ import EditProfilePopup from "./EditProfilePopup";
 import { api } from "../Utils/api";
 import DeleteCardPopup from "./DeleteCardPopup";
 import { CurrentUserContext } from "../context/CurrentUserContext";
-import { ButtonTextContext } from "../context/ButtonTextContext";
+import { LoadingPopupContext } from "../context/LoadingPopupContext";
 
 function App() {
+  const [isLoadingPopup, setLoadingPopup] = useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
   const [isPreviewPopupOpen, setPreviewPopupOpen] = useState(false);
   const [isAddPopupOpen, setAddPopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [saveBtnTitle, setSaveBtnTitle] = useState("");
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState({
     link: "",
     title: "",
   });
   const [toDeleteCard, setDeleteCardId] = useState({ id: "" });
-  // const [userId, setUserId] = useState("");
 
   const handleEditAvatarClick = () => {
     setEditAvatarPopupOpen(true);
@@ -84,7 +83,7 @@ function App() {
   };
 
   const handleAddPlaceSubmit = (link, title) => {
-    setSaveBtnTitle("Сохранение...");
+    setLoadingPopup(true);
     return api
       .addCard(link, title)
       .then((newCard) => {
@@ -92,7 +91,7 @@ function App() {
         setAddPopupOpen(false);
       })
       .finally(() => {
-        setSaveBtnTitle("Создать");
+        setLoadingPopup(false);
       })
       .catch((err) => {
         console.log(`ошибка ${err}`);
@@ -100,7 +99,7 @@ function App() {
   };
 
   const handleEditProfileSubmit = (userName, userAbout) => {
-    setSaveBtnTitle("Сохранение...");
+    setLoadingPopup(true);
     return api
       .setUserInfo(userName, userAbout)
       .then((user) => {
@@ -108,7 +107,7 @@ function App() {
         setEditProfilePopupOpen(false);
       })
       .finally(() => {
-        setSaveBtnTitle("Сохранить");
+        setLoadingPopup(false);
       })
       .catch((err) => {
         console.log(`ошибка ${err}`);
@@ -116,7 +115,7 @@ function App() {
   };
 
   const handleEditAvatarSubmit = (data) => {
-    setSaveBtnTitle("Сохранение...");
+    setLoadingPopup(true);
     return api
       .setUserAvatar(data)
       .then((user) => {
@@ -124,7 +123,7 @@ function App() {
         setEditAvatarPopupOpen(false);
       })
       .finally(() => {
-        setSaveBtnTitle("Сохранить");
+        setLoadingPopup(false);
       })
       .catch((err) => {
         console.log(`ошибка ${err}`);
@@ -132,7 +131,7 @@ function App() {
   };
 
   const handleDeleteCardSubmit = (deleteCard) => {
-    setSaveBtnTitle("Удаление...");
+    setLoadingPopup(true);
     return api
       .deleteCard(deleteCard.id)
       .then(() => {
@@ -140,7 +139,7 @@ function App() {
         setDeleteCardPopupOpen(false);
       })
       .finally(() => {
-        setSaveBtnTitle("Да");
+        setLoadingPopup(false);
       })
       .catch((err) => {
         console.log(`ошибка ${err}`);
@@ -163,7 +162,7 @@ function App() {
           />
           <Footer />
 
-          <ButtonTextContext.Provider value={saveBtnTitle}>
+          <LoadingPopupContext.Provider value={isLoadingPopup}>
             <ImagePopup
               card={selectedCard}
               isOpened={isPreviewPopupOpen}
@@ -194,7 +193,7 @@ function App() {
               onDeletePhoto={handleDeleteCardSubmit}
               card={toDeleteCard}
             />
-          </ButtonTextContext.Provider>
+          </LoadingPopupContext.Provider>
         </div>
       </div>
     </CurrentUserContext.Provider>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, useContext} from "react";
 import { CurrentUserContext } from "../context/CurrentUserContext";
+import { LoadingPopupContext } from "../context/LoadingPopupContext";
 import PopupWithForm from "./PopupWithFotm";
 
 function EditProfilePopup({
@@ -7,7 +8,8 @@ function EditProfilePopup({
   isClosed,
   onEditProfile
 }) {
-  const currentUser = useContext(CurrentUserContext)
+  const currentUser = useContext(CurrentUserContext);
+  const loadingPopup = useContext(LoadingPopupContext);
   const [userName, setUserName] = useState(currentUser.name);
   const [userAbout, setUserAbout] = useState(currentUser.about);
 
@@ -29,6 +31,8 @@ function EditProfilePopup({
     setUserAbout(event.target.value);
   }, []);
 
+
+
   return (
     <>
       <PopupWithForm
@@ -37,7 +41,7 @@ function EditProfilePopup({
         isOpened={isOpened}
         isClosed={isClosed}
         onEditProfile={onEditProfile}
-        buttonTitle="Сохранить"
+        buttonTitle={loadingPopup ? "Сохранение..." : "Сохранить" }
         handleSubmit={handleSubmit}
       >
         <label className="popup__field">

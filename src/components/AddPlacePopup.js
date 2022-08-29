@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
+import { LoadingPopupContext } from "../context/LoadingPopupContext";
 import PopupWithForm from "./PopupWithFotm";
 
 function AddPlacePopup({isOpened, isClosed, onAddPlace}) {
   const [titleCard, setTitleCard] = useState("");
   const [link, setLink] = useState("");
-
+  const loadingPopup = useContext(LoadingPopupContext);
 
   useEffect(() => {
     if (isOpened){
@@ -33,7 +34,7 @@ function AddPlacePopup({isOpened, isClosed, onAddPlace}) {
         title="Новое место"
         isOpened={isOpened}
         isClosed={isClosed}
-        buttonTitle="Создать"
+        buttonTitle={loadingPopup ? "Сохранение..." : "Создать" }
         handleSubmit={handleSubmit}
       >
         <label className="popup__field">

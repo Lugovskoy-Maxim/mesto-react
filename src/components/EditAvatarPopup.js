@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext} from "react";
 import PopupWithForm from "./PopupWithFotm";
+import { LoadingPopupContext } from "../context/LoadingPopupContext";
 
 function EditAvatarPopup({
   isOpened,
@@ -7,6 +8,7 @@ function EditAvatarPopup({
   onEditAvatar
 }) {
   const [value, setValue] = useState("");
+  const loadingPopup = useContext(LoadingPopupContext);
 
   useEffect(() => {
     setValue("");
@@ -27,7 +29,7 @@ function EditAvatarPopup({
       title="Обновить аватар"
       isOpened={isOpened}
       isClosed={isClosed}
-      buttonTitle="Сохранить"
+      buttonTitle={loadingPopup ? "Сохранение..." : "Сохранить" }
       handleSubmit={handleSubmit}
     >
       <label className="popup__field">
