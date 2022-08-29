@@ -1,10 +1,6 @@
 import React from "react";
-import { ButtonTextContext } from '../context/ButtonTextContext'
 
 function PopupWithForm(props) {
-
-  const saveBtnTitle = React.useContext(ButtonTextContext);
-
   return (
     <section
       className={`popup popup_type_${props.name} ${
@@ -30,7 +26,7 @@ function PopupWithForm(props) {
           className="popup__save popup__save-card"
           onClick={props.handleSubmit}
         >
-          {saveBtnTitle || props.buttonTitle}
+          {props.buttonTitle}
         </button>
       </div>
     </section>
